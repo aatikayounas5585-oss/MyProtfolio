@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aatika Younas — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Syne:wght@400;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #0a0a0f;
+            --cream: #f5f0e8;
+            --gold: #c9a96e;
+            --gold-light: #e8d5b0;
+            --copper: #b87333;
+            --white: #fdfcfa;
+            --muted: #7a7168;
+            --card: rgba(245, 240, 232, 0.04);
+            --glass: rgba(201, 169, 110, 0.08);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: var(--ink);
+            color: var(--cream);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* ── Custom cursor ── */
+        .cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease, width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(201, 169, 110, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease, width 0.4s, height 0.4s, opacity 0.3s;
+        }
+
+        body:hover .cursor-ring {
+            opacity: 1;
+        }
+
+        a:hover~.cursor,
+        button:hover~.cursor {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ── Grain overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* ── Ambient background lights ── */
+        .ambient {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.07), transparent 70%);
+            top: -200px;
+            left: -150px;
+            animation: drift1 20s ease-in-out infinite alternate;
+        }
+
+        .ambient-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(184, 115, 51, 0.06), transparent 70%);
+            bottom: 100px;
+            right: -100px;
+            animation: drift2 25s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift1 {
+            to {
+                transform: translate(60px, 80px);
+            }
+        }
+
+        @keyframes drift2 {
+            to {
+                transform: translate(-60px, -60px);
+            }
+        }
+
+        /* ── Thin gold line nav ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 60px;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.7);
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* ── Hero ── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            z-index: 1;
+            padding: 120px 60px 80px;
+            overflow: hidden;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.3s forwards;
+        }
+
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 11vw, 8.5rem);
+            font-weight: 300;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: fadeUp 1.2s ease 0.5s forwards;
+        }
+
+        .hero-name em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--copper));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            font-weight: 300;
+            color: var(--muted);
+            max-width: 560px;
+            margin: 32px auto 0;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeUp 1.2s ease 0.8s forwards;
+        }
+
+        .hero-divider {
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            margin: 60px auto 0;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.2s forwards;
+        }
+
+        /* Large decorative background text */
+        .hero-bg-text {
+            position: absolute;
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(120px, 20vw, 200px);
+            font-weight: 800;
+            color: rgba(201, 169, 110, 0.03);
+            white-space: nowrap;
+            user-select: none;
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            letter-spacing: -0.05em;
+        }
+
+        /* ── Sections ── */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 120px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        /* ── About ── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-headline {
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .about-headline em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .about-body {
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.85;
+        }
+
+        .about-body p+p {
+            margin-top: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat {
+            border-top: 1px solid rgba(201, 169, 110, 0.2);
+            padding-top: 16px;
+        }
+
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        /* ── Skills ── */
+        .skills-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: rgba(201, 169, 110, 0.08);
+            border: 1px solid rgba(201, 169, 110, 0.12);
+        }
+
+        .skill-item {
+            background: var(--ink);
+            padding: 28px 30px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: background 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .skill-item:hover {
+            background: rgba(201, 169, 110, 0.04);
+        }
+
+        .skill-item:hover::after {
+            opacity: 1;
+        }
+
+        .skill-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .skill-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* ── Projects ── */
+        .projects-grid {
+            display: grid;
+            gap: 2px;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 40px;
+            align-items: center;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.1);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            transition: padding 0.4s;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(201, 169, 110, 0.04), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .project-card:hover {
+            padding-left: 20px;
+        }
+
+        .project-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+        }
+
+        .project-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 300;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .project-card:hover .project-info h3 {
+            color: var(--gold);
+        }
+
+        .project-info p {
+            font-size: 1rem;
+            color: var(--muted);
+            font-weight: 300;
+            max-width: 500px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--copper);
+            border: 1px solid rgba(184, 115, 51, 0.3);
+            padding: 4px 10px;
+            border-radius: 2px;
+        }
+
+        .project-arrow {
+            font-size: 1.5rem;
+            color: var(--gold);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .project-card:hover .project-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .project-wip {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px dashed rgba(122, 113, 104, 0.4);
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+
+        /* ── Add-project (owner only) ── */
+        .add-project-trigger {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 28px 0 0;
+            background: none;
+            border: none;
+            cursor: none;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            transition: color 0.3s;
+        }
+
+        .add-project-trigger:hover {
+            color: var(--gold);
+        }
+
+        .add-project-trigger .plus-circle {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 169, 110, 0.4);
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 460px;
+            background: var(--ink);
+            border: 1px solid rgba(201, 169, 110, 0.25);
+            padding: 40px;
+            position: relative;
+        }
+
+        .modal-box h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 28px;
+        }
+
+        .modal-box label {
+            display: block;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+            margin-top: 18px;
+        }
+
+        .modal-box label:first-of-type {
+            margin-top: 0;
+        }
+
+        .modal-box input,
+        .modal-box textarea {
+            width: 100%;
+            background: rgba(201, 169, 110, 0.05);
+            border: 1px solid rgba(201, 169, 110, 0.2);
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            padding: 10px 12px;
+            cursor: auto;
+        }
+
+        .modal-box textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .modal-actions button {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 12px 22px;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            background: none;
+            color: var(--cream);
+            cursor: none;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .modal-actions button.primary {
+            background: var(--gold);
+            color: var(--ink);
+            border-color: var(--gold);
+        }
+
+        .modal-actions button:hover {
+            background: rgba(201, 169, 110, 0.15);
+        }
+
+        .modal-actions button.primary:hover {
+            background: var(--gold-light);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.1rem;
+            cursor: none;
+        }
+
+        .remove-project {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: none;
+            border: 1px solid rgba(122, 113, 104, 0.4);
+            padding: 4px 10px;
+            cursor: none;
+        }
+
+        .remove-project:hover {
+            color: var(--copper);
+            border-color: rgba(184, 115, 51, 0.4);
+        }
+
+        /* ── Certifications ── */
+        .cert-list {
+            display: grid;
+            gap: 1px;
+            background: rgba(201, 169, 110, 0.08);
+            border: 1px solid rgba(201, 169, 110, 0.12);
+        }
+
+        .cert-item {
+            background: var(--ink);
+            padding: 26px 30px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: baseline;
+            transition: background 0.4s;
+        }
+
+        .cert-item:hover {
+            background: rgba(201, 169, 110, 0.04);
+        }
+
+        .cert-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+        }
+
+        .cert-issuer {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 6px;
+            letter-spacing: 0.03em;
+        }
+
+        .cert-year {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        /* ── Contact ── */
+        .contact-block {
+            text-align: center;
+            padding: 120px 20px;
+            border-top: 1px solid rgba(201, 169, 110, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-kicker {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 32px;
+        }
+
+        .contact-headline {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 48px;
+            letter-spacing: -0.02em;
+        }
+
+        .contact-headline em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .contact-email {
+            display: inline-block;
+            font-family: 'DM Mono', monospace;
+            font-size: clamp(0.8rem, 1.8vw, 1rem);
+            letter-spacing: 0.1em;
+            color: var(--cream);
+            text-decoration: none;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            padding: 18px 48px;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s;
+        }
+
+        .contact-email::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .contact-email:hover::before {
+            transform: scaleX(1);
+        }
+
+        .contact-email:hover {
+            color: var(--ink);
+        }
+
+        .contact-email span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Footer ── */
+        footer {
+            padding: 32px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(201, 169, 110, 0.08);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-copy {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: rgba(122, 113, 104, 0.5);
+        }
+
+        .footer-sig {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: rgba(201, 169, 110, 0.4);
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px 24px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            section {
+                padding: 80px 24px;
+            }
+
+            .hero {
+                padding: 100px 24px 60px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .skills-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .project-card {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .project-num {
+                display: none;
+            }
+
+            .cert-item {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <div class="ambient ambient-1"></div>
+    <div class="ambient ambient-2"></div>
+
+    <!-- Nav -->
+    <nav>
+        <a href="#" class="nav-logo">AY</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-bg-text">AATIKA</div>
+        <div class="hero-inner">
+            <p class="hero-eyebrow">CS Student &amp; Creative Strategist</p>
+            <h1 class="hero-name">
+                Aatika<br><em>Younas</em>
+            </h1>
+            <p class="hero-tagline">
+                Crafting digital experiences where<br>functional code meets aesthetic intention.
+            </p>
+            <div class="hero-divider"></div>
+        </div>
+    </div>
+
+    <!-- About -->
+    <section id="about">
+        <p class="section-label reveal">01 &nbsp; About</p>
+        <div class="about-grid">
+            <div class="reveal">
+                <h2 class="about-headline">
+                    Where code<br>meets <em>creative</em><br>vision.
+                </h2>
+                <div class="stat-row">
+                    <div class="stat">
+                        <div class="stat-num">2024</div>
+                        <div class="stat-label">Enrolled</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">2+</div>
+                        <div class="stat-label">Years Design</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">∞</div>
+                        <div class="stat-label">Curiosity</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-body reveal" style="transition-delay:0.15s">
+                <p>
+                    I'm a Computer Science student who bridges the gap between functional code and
+                    aesthetic design — building things that perform as beautifully as they appear.
+                </p>
+                <p>
+                    My focus spans coding and graphic design in equal measure — from Python and C++
+                    fundamentals to professional coursework in Print Media and Graphic Design — and I
+                    approach every project as a bonding of technical precision and artistic sensibility.
+                </p>
+                <p>
+                    Whether architecting a back-end tool or composing a visual identity, the standard is always the
+                    same: intentional, refined, and memorable.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <p class="section-label reveal">02 &nbsp; Stack</p>
+        <div class="skills-wrapper reveal">
+            <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Photoshop</span></div>
+            <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">HTML5 &amp; CSS3</span>
+            </div>
+            <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Python</span></div>
+            <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">C++</span></div>
+            <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Canva</span></div>
+            <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Gradio</span></div>
+        </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work">
+        <p class="section-label reveal">03 &nbsp; Featured Work</p>
+        <div class="projects-grid" id="projectsGrid">
+
+            <!-- Project 1 -->
+            <a href="https://colab.research.google.com/drive/1b4S3hrvZVtZ3c2fNNq2sBIrmxH6oOZR7?usp=sharing"
+                class="project-card reveal" target="_blank" rel="noopener">
+                <div class="project-num">01</div>
+                <div class="project-info">
+                    <h3>Currency Converter</h3>
+                    <p>A real-time financial tool simplifying exchange rate calculations with a clean, intuitive
+                        interface. Built to handle live API data gracefully.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">API</span>
+                        <span class="tag">Gradio</span>
+                    </div>
+                </div>
+                <div class="project-arrow">→</div>
+            </a>
+
+            <!-- Project 2 -->
+            <a href="https://aatikayounas5585-oss.github.io/Whiskers-in-the-dark/"
+                class="project-card reveal" style="transition-delay:0.1s" target="_blank" rel="noopener">
+                <div class="project-num">02</div>
+                <div class="project-info">
+                    <h3>Whiskers in the Dark</h3>
+                    <p>An immersive front-end storytelling experience exploring dynamic user interactions, scroll-driven
+                        narratives, and expressive CSS animation. Live on GitHub Pages.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">GitHub Pages</span>
+                    </div>
+                </div>
+                <div class="project-arrow">→</div>
+            </a>
+
+        </div>
+
+        <!-- Owner-only: add a new project (saved locally in this browser) -->
+        <button class="add-project-trigger reveal" id="addProjectTrigger" style="transition-delay:0.15s">
+            <span class="plus-circle">+</span>
+            Add project
+        </button>
+    </section>
+
+    <!-- Certifications -->
+    <section id="certifications">
+        <p class="section-label reveal">04 &nbsp; Certifications &amp; Achievements</p>
+        <div class="cert-list reveal">
+            <div class="cert-item">
+                <div>
+                    <div class="cert-title">Pakistan Youth Leadership Initiative (PYLI)</div>
+                    <div class="cert-issuer">British Council &amp; Muslim Hands — Leadership training for young climate leaders</div>
+                </div>
+                <div class="cert-year">2025–26</div>
+            </div>
+            <div class="cert-item">
+                <div>
+                    <div class="cert-title">Community Action for Disaster Response (CADRE)</div>
+                    <div class="cert-issuer">Punjab Emergency Service — Rescue 1122</div>
+                </div>
+                <div class="cert-year">Oct 2024</div>
+            </div>
+            <div class="cert-item">
+                <div>
+                    <div class="cert-title">Creative Quill — Essay Contest</div>
+                    <div class="cert-issuer">Arid Institute of Sciences</div>
+                </div>
+                <div class="cert-year">2025</div>
+            </div>
+            <div class="cert-item">
+                <div>
+                    <div class="cert-title">World Food Day — Awareness Campaign</div>
+                    <div class="cert-issuer">Arid Institute of Sciences</div>
+                </div>
+                <div class="cert-year">2025</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <div class="contact-block" id="contact">
+        <p class="contact-kicker reveal">05 &nbsp; Let's Connect</p>
+        <h2 class="contact-headline reveal">
+            Ready to<br><em>collaborate?</em>
+        </h2>
+        <a href="mailto:aatikayounas5585@gmail.com" class="contact-email reveal">
+            <span>aatikayounas5585@gmail.com</span>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <span class="footer-copy">&copy; 2026 Aatika Younas — All rights reserved</span>
+        <span class="footer-sig">Designed with intent.</span>
+    </footer>
+
+    <!-- Add-project modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose">✕</button>
+            <h4>New Project</h4>
+            <label for="fTitle">Title</label>
+            <input type="text" id="fTitle" placeholder="Project name">
+            <label for="fDesc">Description</label>
+            <textarea id="fDesc" placeholder="One or two sentences about it"></textarea>
+            <label for="fTags">Tags (comma separated)</label>
+            <input type="text" id="fTags" placeholder="e.g. Python, API">
+            <label for="fLink">Link</label>
+            <input type="text" id="fLink" placeholder="https://...">
+            <div class="modal-actions">
+                <button id="cancelBtn">Cancel</button>
+                <button class="primary" id="saveBtn">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cursor.style.left = mx + 'px';
+            cursor.style.top = my + 'px';
+        });
+
+        function animateRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        // Hover effects on interactive elements
+        function bindHoverFx(el) {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+                ring.style.width = '60px'; ring.style.height = '60px';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+                ring.style.width = '36px'; ring.style.height = '36px';
+            });
+        }
+        document.querySelectorAll('a, button, .skill-item, .project-card').forEach(bindHoverFx);
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 60);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        /* ── Add-project feature (owner only, stored in this browser) ──
+           Visible only to whoever opens the page with ?edit=aatika in the
+           URL, so casual visitors never see the add/remove controls.
+           New projects are saved to this browser's localStorage — they
+           persist here on reload, but won't appear for other visitors
+           unless you copy them into the HTML permanently later. */
+        const STORAGE_KEY = 'ay_custom_projects';
+        const isOwnerMode = new URLSearchParams(location.search).get('edit') === 'aatika';
+        const trigger = document.getElementById('addProjectTrigger');
+        const grid = document.getElementById('projectsGrid');
+        const overlay = document.getElementById('modalOverlay');
+
+        function getCustomProjects() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveCustomProjects(list) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+            } catch (e) { /* storage unavailable — silently skip */ }
+        }
+
+        function renderCustomProjects() {
+            document.querySelectorAll('.project-card[data-custom="1"]').forEach(el => el.remove());
+            const list = getCustomProjects();
+            list.forEach((proj, idx) => {
+                const card = document.createElement('a');
+                card.className = 'project-card reveal visible';
+                card.dataset.custom = '1';
+                card.href = proj.link || '#';
+                card.target = '_blank';
+                card.rel = 'noopener';
+                card.style.position = 'relative';
+
+                const tagsHtml = (proj.tags || [])
+                    .map(t => `<span class="tag">${t}</span>`).join('');
+
+                card.innerHTML = `
+                    <div class="project-num">0${idx + 3}</div>
+                    <div class="project-info">
+                        <h3>${proj.title}</h3>
+                        <p>${proj.desc || ''}</p>
+                        <div class="project-tags">${tagsHtml}</div>
+                    </div>
+                    <div class="project-arrow">→</div>
+                `;
+                bindHoverFx(card);
+                grid.appendChild(card);
+
+                if (isOwnerMode) {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-project';
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.addEventListener('click', (ev) => {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        const updated = getCustomProjects().filter((_, i) => i !== idx);
+                        saveCustomProjects(updated);
+                        renderCustomProjects();
+                    });
+                    bindHoverFx(removeBtn);
+                    card.style.paddingRight = '90px';
+                    card.appendChild(removeBtn);
+                }
+            });
+        }
+
+        renderCustomProjects();
+
+        if (isOwnerMode) {
+            trigger.style.display = 'flex';
+            trigger.addEventListener('click', () => overlay.classList.add('open'));
+            document.getElementById('modalClose').addEventListener('click', () => overlay.classList.remove('open'));
+            document.getElementById('cancelBtn').addEventListener('click', () => overlay.classList.remove('open'));
+            document.getElementById('saveBtn').addEventListener('click', () => {
+                const title = document.getElementById('fTitle').value.trim();
+                if (!title) return;
+                const desc = document.getElementById('fDesc').value.trim();
+                const tags = document.getElementById('fTags').value.split(',').map(t => t.trim()).filter(Boolean);
+                const link = document.getElementById('fLink').value.trim();
+                const list = getCustomProjects();
+                list.push({ title, desc, tags, link });
+                saveCustomProjects(list);
+                ['fTitle', 'fDesc', 'fTags', 'fLink'].forEach(id => document.getElementById(id).value = '');
+                overlay.classList.remove('open');
+                renderCustomProjects();
+            });
+        } else {
+            trigger.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
